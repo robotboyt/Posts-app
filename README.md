@@ -1,19 +1,19 @@
 # Posts App
 
 This is app where u see all posts which takes from backend, also u can to create new post.
-If u click on some post u will be see this post page with him comments, where u can to change this post: Update his title and description, also u can to add comments for this post and delete this post.
+If u click on some post u will be see  post page with him comments, where u can to change this post: Update his title and description, also u can to add comments for this post and delete this post.
 
 If u want to try it:
 
 1. Clone this repository
 
-2. In project folder type
+2. In project folder write
 
 ## npm install
 
 for install all dependensies
 
-3. In command line type
+3. In command line write
 
 ### npm start
 
