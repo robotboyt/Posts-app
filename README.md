@@ -6,11 +6,14 @@ If u click on some post u will be see this post page with him comments, where u 
 If u want to try it:
 
 1. Clone this repository
+
 2. In project folder type
 
 ## npm install
 
-for install all dependensies 3. In command line type
+for install all dependensies
+
+3. In command line type
 
 ### npm start
 
