@@ -58,3 +58,8 @@
 .control-icon:hover {
   color: white;
 }
+
+.btn-block {
+  display: flex;
+  justify-content: center;
+}

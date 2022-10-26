@@ -17,10 +17,10 @@ const InsPage = ({ getData }) => {
   const [description, setDescription] = useState(postDescription);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showComment, setShowComments] = useState(false);
   const [titleInput, setTitleInput] = useState(title);
   const [descriptionInput, setDescriptionInput] = useState(description);
   const [comments, setComments] = useState([]);
-  const [showComment, setShowComments] = useState(false);
   const [commentInput, setCommentInput] = useState("");
 
   //   From this function we get all Comments about this post
@@ -31,6 +31,13 @@ const InsPage = ({ getData }) => {
     const data = await response.json();
     setComments(data.comments);
   };
+
+  //   Here we use useEffect for get all comments.
+  useEffect(() => {
+    getComments();
+    // Here I off eslint because i had some warning about useEffect deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //   In this function we can to delete post
   const deletePost = () => {
@@ -72,13 +79,25 @@ const InsPage = ({ getData }) => {
 
     fetch("https://bloggy-api.herokuapp.com/comments", requestOptions)
       .then((response) => response.json())
-      .then(() => getComments());
+      .then(() => getComments())
+      .then(() => setCommentInput(""));
   };
 
-  //   Here we use useEffect for get all comments.
-  useEffect(() => {
-    getComments();
-  }, []);
+  const toogleShow = (el) => {
+    if (el === "commentIcon") {
+      setShowComments(!showComment);
+      setShowEdit(false);
+      setShowDelete(false);
+    } else if (el === "editIcon") {
+      setShowEdit(!showEdit);
+      setShowComments(false);
+      setShowDelete(false);
+    } else {
+      setShowDelete(!showDelete);
+      setShowComments(false);
+      setShowEdit(false);
+    }
+  };
 
   return (
     <div className="ins-page">
@@ -125,24 +144,25 @@ const InsPage = ({ getData }) => {
                 setChange={setCommentInput}
                 placeholder={"Write your comment"}
               />
-
-              <CustomButton
-                btnClass={"btnClose"}
-                clickFunction={setShowComments}
-              >
-                Close
-              </CustomButton>
-              <CustomButton
-                btnClass={"btnSubmit"}
-                clickFunction={createComment}
-              >
-                Change
-              </CustomButton>
+              <div className="btn-block">
+                <CustomButton
+                  btnClass={"btnClose"}
+                  clickFunction={setShowComments}
+                >
+                  Close
+                </CustomButton>
+                <CustomButton
+                  btnClass={"btnSubmit"}
+                  clickFunction={createComment}
+                >
+                  Post
+                </CustomButton>
+              </div>
             </form>
           </div>
         ) : null}
         {showDelete ? (
-          <div className="delete-block">
+          <div className="btn-block">
             <CustomButton btnClass={"btnClose"} clickFunction={setShowDelete}>
               Close
             </CustomButton>
@@ -169,17 +189,17 @@ const InsPage = ({ getData }) => {
         <FontAwesomeIcon
           icon={faPenToSquare}
           className="control-icon"
-          onClick={() => setShowEdit(!showEdit)}
+          onClick={() => toogleShow("editIcon")}
         />
         <FontAwesomeIcon
           icon={faCommentMedical}
           className="control-icon"
-          onClick={() => setShowComments(!showComment)}
+          onClick={() => toogleShow("commentIcon")}
         />
         <FontAwesomeIcon
           icon={faTrash}
           className="control-icon"
-          onClick={() => setShowDelete(!showDelete)}
+          onClick={() => toogleShow()}
         />
       </div>
     </div>

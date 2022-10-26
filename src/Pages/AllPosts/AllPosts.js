@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Post from "../../components/Post/Post";
 import "./AllPosts.css";
 import loadAnim from "../../Assets/loading.gif";
+import { useSelector, useDispatch } from "react-redux";
+import { onLoading } from "../../features/slice";
 
-const AllPosts = ({ data, getData, loading, setLoading }) => {
+const AllPosts = ({ data, getData }) => {
+  const loading = useSelector((state) => state.loading.loading);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setLoading(true);
     getData();
+    dispatch(onLoading());
+    // Here I off eslint because i had some warning about useEffect deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
